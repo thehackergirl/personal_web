@@ -248,3 +248,13 @@ h3{
   height: 100%;
   object-fit: cover;
 }
+
+.bottom-container{
+  background-color: #66bfbf;
+  margin-top: 60px;
+  width: 100%;
+  padding: 50px 0 20px;
+}
+.server{
+  margin-top: 100px;
+}
