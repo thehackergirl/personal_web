@@ -24,8 +24,16 @@
  .dropdown{
    position: absolute;
    top: 10px;
+   left: 70px;
 
  }
+ .dropdown-home{
+   position: absolute;
+   top: 10px;
+ }
+ .dropdown-toggle::after {
+    content: none;
+}
 
 .btn{
   background-color: transparent;
@@ -140,7 +148,6 @@ h3{
   text-align: left;
   line-height: 2;
   margin-bottom: 30px;
-  font-size:
 }
 .coding-picture{
   width: 35%;

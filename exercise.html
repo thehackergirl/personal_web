@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Tomato Pi Web</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/styles3.css">
+
+  </head>
+  <body>
+    <!-- ***DROPDOWN MENU/PAGE TITLE*** -->
+
+<div class="top-container">
+    <div class="dropdown-home">
+      <a class="btn btn-secondary dropdown-toggle" href="https://www.w3schools.com/" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+        Home
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <li><a class="dropdown-item" href="#">Tomato Pi AI</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+      </ul>
+    </div>
+
+    <div class="dropdown">
+      <a class="btn btn-secondary dropdown-toggle" href="https://www.w3schools.com/" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+        Projects
+      </a>
+
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <li><a class="dropdown-item" href="#">Tomato Pi AI</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+      </ul>
+    </div>
+    <h1>Tomato Pi AI</h1>
+    <h2 class="intro">irrigation system.</h2>
+</div>
+
+
+<!-- *** FIRST CONTAINER/INTRO *** -->
+
+<div class="intro_container">
+  <div class="intro_img_container">
+   <img class=intro_photo src="images/tomato_main.jpg" alt="">
+   </div>
+  <div class="all-text-container">
+    <h2>Raspberry Pi Basic.</h2>
+
+    <p> <span class="bolder">Raspberry Pi</span> is a small computer that has General Purpose Input and Output pins. <span class="bolder">GPIO</span> is basically a way of interaction of these microcontrollers with electronic devices. (That’s how
+        you connect Raspberry Pi to other devices.)
+      </p>
+      <p><span class="bolder">Output pins</span> let you control switches directly from Raspberry Pi. ex.on/off diode light.</p>
+      <p><span class="bolder">Input pins </span> let you control switches from outside. ex.on/off light switch. Also data from a sensor or signal from another device.</p>
+      <p>I used a <span class="bolder">breadBoard </span> to design the circuit without soldering. BreadBoard is a plastic board with holes. Inside of it are metal strips connecting tie-points (holes).</p>
+      <p><span class="bolder">Resistors</span> are a way of limiting the amount of electricity going through the circuit. Jumper wires are helpful for your design on breadBoard. They help you jump from the Raspberry Pi to the breadBoard.</p>
+</div>
+</div>
+<hr>
+<!-- SECOND CONTAINER -->
+
+<div class="second_container">
+  <div class="all-text-container2">
+    <h2>Tomato Project Documentation.</h2>
+    <h3>May 3, 2021</h3>
+    <p class="dev1_text">
+     Today was the first day I actually wrote code for the project. First I wrote a program and learned how to start an LED in order to understand the Raspberry Pi more. I connected a jumper to
+     one of the pins (GND), and then to the resistor. Next, the resistor got
+     connected to the shorter leg of a diode (shorter one is the negative one, cathode), and the longer leg of the LED got connected to the GPIO pin using another jumper.
+ </p>
+ </div>
+<div class="intro_img_container2">
+ <img class=intro_photo src="images/tomato1.jpg" alt="">
+ </div>
+
+</div>
+<hr>
+
+<!-- ** THIRD CONTAINER *** -->
+
+<div class="intro_container">
+  <div class="intro_img_container">
+   <!-- <img class=intro_photo src="images/screenshot1.png" alt=""> -->
+      Use the RPi.GPIO library:
+      <code>import RPi.GPIO as GPIO</code>
+
+      <p></p>Use the Time library:
+      <code>import time</code>
+
+      <p></p>Set up channel/pin as output:
+      <code>GPIO.setup(18,GPIO.OUT)</code>
+
+      <p></p>Tell the program which name convention you are using:
+      <code>GPIO.setmode(GPIO.BCM)</code>
+
+      <p></p>Turn the GPIO pin on:
+      <code>GPIO.output(18,GPIO.HIGH)</code>
+
+      <p></p>Pause the program for 1 sec:
+      <code>time.sleep(1)</code>
+
+      <p></p>Turn GPIO pin off, no more power for this pin:
+      <code>GPIO.output(18,GPIO.LOW)</code>
+   </div>
+  <div class="all-text-container">
+    <h3>The code: </h3>
+      <code>
+        import RPi.GPIO as GPIO<br>
+        import time<br>
+        GPIO.setmode(GPIO.BCM) <br>
+        GPIO.setwarnings(False)<br>
+        GPIO.setup(18,GPIO.OUT)<br>
+        print "LED on"<br>
+        GPIO.output(18,GPIO.HIGH)<br>
+        time.sleep(1)<br>
+        print "LED off"GPIO.output(18,GPIO.LOW)<br>
+</code>
+
+</div>
+</div>
+<hr>
+<div class="second_container">
+  <div class="all-text-container2">
+    <h3>May 4, 2021</h3>
+    <p class="dev1_text">
+     Finished coding today. The schedule module works as well as functions to turn it on and off.
+     I can either plan the timing for the water system to work using <code>schedule.every().day.at("21:19").do(valveOnOff);</code>
+     or control it via buttons on the web page in case there is a bug. I made it possible to turn it on and off from a
+     laptop or computer assuming that something might break.
+ </p>
+ <div class="intro_img_container_code_1">
+   <h3 class="h3_code">The code(1):</h3>
+   <code class="code">from werkzeug.wrappers import Request <br>
+   import RPi.GPIO as GPIO<br>
+   import schedule<br>
+   import threading<br>
+   import time<br>
+   from flask import Flask, redirect, render_template, request<br>
+   # from guizero import App, TextBox<br>
+<br><br>
+
+   app = Flask(__name__)<br>
+<br>
+   print("starting jagodas tomato server")<br>
+<br>
+   # set the gpio in mode broadcom - so we<br>
+   #  can control leds, etc<br>
+   GPIO.setmode(GPIO.BCM)<br>
+   # disable warnings<br>
+   GPIO.setwarnings(False)<br>
+<br>
+   # set pin number 17 to output - so that we can use it to turn something on / off<br>
+   GPIO.setup(17, GPIO.OUT)<br>
+   GPIO.output(17, GPIO.HIGH)<br>
+<br>
+   # This function turns the valve on and off.<br>
+   def valveOnOff():<br>
+      GPIO.output(17, GPIO.LOW)<br>
+      print("GPIO LOW (on), valve should be open")<br>
+      time.sleep(90)<br>
+      GPIO.output(17, GPIO.HIGH)<br>
+      print("GPIO HIGH (off), valve should be closed")<br>
+<br>
+   def valveOnOnly():<br>
+      GPIO.output(17, GPIO.LOW)<br>
+      print("GPIO LOW (on), valve should be open")</code>
+
+  </div>
+  <p class="dev1_text">
+
+      <h3>Issues:</h3>
+      The code was actually opening the valve at the moment of running the program. I fixed it by reversing the GPIO.HIGH with GPIO.LOW so the valve is always closed and the watering system works only when scheduled.
+
+      <h3>Learned:</h3>
+      <ul>
+        <li>How to open the valve with my code and keep it closed all the time beside the planned time in
+          order to avoid flooding the soil.
+        </li>
+
+      </ul>
+      <h3>Next steps:</h3>
+      <ul>
+        <li>Getting a hose and setting it up with my plants.</li>
+        <li>Learning about the relay.</li>
+        <li>Connecting the Raspberry Pi to the relay.</li>
+        <li>Getting a hose and setting it up with my plants.</li>
+        <li>Connecting the valve to the hose. </li>
+      </ul>
+
+ </div>
+<div class="intro_img_container_code_2">
+  <h3 class="h3_code">The code(2):</h3>
+  <code class="code">
+    def valveOffOnly(): <br>
+   GPIO.output(17, GPIO.HIGH)<br>
+   print("GPIO HIGH (off), valve should be closed")<br>
+<br>
+def test():<br>
+   print('test this')<br>
+<br>
+
+# valveOnOff()<br>
+<br>
+schedule.every().day.at("07:11").do(valveOnOff)<br>
+# schedule.every().day.at("04:27").do(job)<br>
+# schedule.every(5).seconds.do(valveOnOff)<br>
+<br>
+
+@app.route("/")<br>
+def index():<br>
+   # only return html here, use javascript call to /on and /off<br>
+   return render_template('index.html')<br>
+<br>
+@app.route("/on")<br>
+def waterOn():<br>
+   valveOnOnly()<br>
+   return "{status:ok}"<br>
+
+# the api, important to be before loop<br>
+@app.route("/off")<br>
+def waterOff():<br>
+   valveOffOnly()<br>
+   return "{status:ok}"<br>
+<br>
+@app.route('/schedule', methods=['GET'])<br>
+def schedule_function():<br>
+   text_seconds = request.args.get['text_name']<br>
+   processed_text = text_seconds.upper()<br>
+   textbox_time = request.args.get['time']<br>
+   print(processed_text)<br>
+   return processed_text<br>
+<br>
+# my_form_post()
+<br><br>
+
+class BackgroundTasks(threading.Thread):<br>
+   def run(self,*args,**kwargs):<br>
+       app.run(host='0.0.0.0')<br>
+<br>
+t = BackgroundTasks()<br>
+t.start()<br>
+<br>
+# main loop of program<br>
+while True:<br><br>
+   print ("still running program")<br>
+   schedule.run_pending()<br>
+   time.sleep(1)<br>
+
+<br><br>
+
+
+
+if __name__ == '__main__':<br>
+   app.debug = True<br>
+   app.run()<br>
+<br>
+
+
+def api_response():<br>
+   from flask import jsonify<br>
+   if request.method == 'POST':<br>
+       return jsonify(**request.json)<br>
+<br>
+GPIO.cleanup()<br>
+</code>
+
+ </div>
+
+</div>
+<hr>
+
+<div class="second_container">
+  <div class="all-text-container_last">
+    <h2>Tomato Project Documentation.</h2>
+    <h3>May 6, 2021</h3>
+    <p class="dev1_text_last">
+     Today I finally set up a hose around the patio and made holes in it using a drill. <br>
+     I learned that Relay is basically an electromagnetic switch. It's used to control high voltage supply. The AC mains supply in North America is 120V, and the Raspberry Pi works on 3.3 volts DC. I connected the Raspberry Pi to the relay.<br>
+
+     <h2>Steps for connecting Pi to relay:</h2>
+     <ul>
+      <li>Connect the 5V Pi pin to the Vcc pin on the relay.</li>
+      <li>Connect the Ground Pin of Pi to Ground Pin on the relay.</li>
+      <li>Connect the GPIO pin to the input of the relay.</li>
+     </ul>
+
+     <br>
+
+     Next, I connected the solenoid valve to my pipe. I used special teflon tape aka plumber’s tape.
+      It is the best tape to use when working with water and this one specifically for sealing pipe threads.
+       I applied this tape to avoid possible leaks.
+<br>
+     I used a 12V power supply to run my project. The charger got connected to the valve and tested if it opened.
+     After testing all the connections the time has come for soldering the cables. My project works perfectly so after
+      a couple of tests I put the Raspberry Pi, relay and power supply in an old box. I made a few holes, put cables
+      through them and sealed them back to make my project waterproof. <br> <br> <p class="bolder">The Tomato AI is finally functioning and
+       is performing every morning!</p>
+
+ </div>
+<div class="intro_img_container2">
+ <img class=intro_photo src="images/tom2.jpg" alt="">
+ </div>
+
+</div>
+<hr>
+
+<div class="intro_container break">
+  <div class="intro_img_container">
+   <img class=intro_photo src="images/tom3.jpg" alt="">
+   </div>
+   <div class="intro_img_container2">
+    <img class=intro_photo src="images/tom4.jpg" alt="">
+    </div>
+</div>
+
+<div class="intro_container break">
+  <div class="intro_img_container ">
+   <img class=intro_photo src="images/tom5.jpg" alt="">
+   </div>
+   <div class="intro_img_container2">
+    <img class=intro_photo src="images/tom6.jpg" alt="">
+    </div>
+</div>
+
+<div class="intro_container break">
+  <div class="intro_img_container">
+   <img class=intro_photo src="images/tom7.jpg" alt="">
+   </div>
+   <div class="intro_img_container2">
+    <img class=intro_photo src="images/tom8.jpg" alt="">
+    </div>
+</div>
+
+<div class="last_container">
+  <div class="last_img">
+   <img class=intro_photo src="images/tom9.jpg" alt="">
+   </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+</body>
+
+</html>
